@@ -1,0 +1,472 @@
+:root {
+  color-scheme: light dark;
+  font-family: system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+header {
+  text-align: center;
+  padding: 2.5rem 1rem 1.5rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0 0 0.5rem;
+}
+
+header p {
+  opacity: 0.7;
+}
+
+/* The subtitle stays optically centred in the header while the controls
+   sit hard left, so the row is relative + absolutely-placed controls
+   rather than a flex row (which would push the subtitle off-centre). */
+.subtitle-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Tall enough for the 30px buttons, so they don't hang out of the row
+     into the heading's margin. */
+  min-height: 34px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.subtitle-row p {
+  margin: 0;
+}
+
+.controls {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 6px;
+  /* #subtitle is opacity < 1, which gives it its own stacking context
+     painted at z-index 0 — later in DOM order, so without this it covers
+     the buttons and swallows their clicks. */
+  z-index: 1;
+}
+
+.controls button {
+  all: unset;
+  cursor: pointer;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  color: #f8fafc;
+  opacity: 0.45;
+  background: rgba(248, 250, 252, 0.06);
+  transition: opacity 0.15s ease, background 0.15s ease;
+}
+
+/* Hover/focus hint. Native title= works but waits about a second and
+   can't be seen from the keyboard; this shows straight away. */
+.controls button::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 2;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: #1e293b;
+  color: #f8fafc;
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+
+.controls button:hover::after,
+.controls button:focus-visible::after {
+  opacity: 1;
+}
+
+.controls button:hover {
+  opacity: 0.8;
+}
+
+.controls button:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+.controls button.on {
+  opacity: 1;
+  background: rgba(56, 189, 248, 0.3);
+}
+
+.controls svg {
+  width: 17px;
+  height: 17px;
+}
+
+@media (max-width: 640px) {
+  /* No room to overlap on a phone — let the controls take their own line. */
+  .subtitle-row {
+    display: block;
+  }
+
+  .controls {
+    position: static;
+    transform: none;
+    margin: 0 0 0.75rem;
+  }
+}
+
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.grid button {
+  all: unset;
+  cursor: zoom-in;
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #1e293b;
+  display: block;
+}
+
+.grid img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.grid button:hover img,
+.grid button:focus-visible img {
+  transform: scale(1.05);
+}
+
+.grid button:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+.grid video.preview {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.grid button.video-hovering video.preview {
+  opacity: 1;
+}
+
+.grid button.video-hovering img {
+  opacity: 0;
+}
+
+.play-badge {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  border-radius: 999px;
+  background: rgba(2, 6, 23, 0.65);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.play-badge::after {
+  content: "";
+  border-style: solid;
+  border-width: 6px 0 6px 10px;
+  border-color: transparent transparent transparent #f8fafc;
+  margin-left: 2px;
+}
+
+.empty {
+  text-align: center;
+  opacity: 0.7;
+  padding: 3rem 1rem;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem 1rem 0.5rem;
+}
+
+.pager[hidden] {
+  display: none;
+}
+
+.pager button {
+  all: unset;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(248, 250, 252, 0.08);
+  color: #f8fafc;
+  font-size: 0.9rem;
+  transition: background 0.15s ease;
+}
+
+.pager button:hover {
+  background: rgba(56, 189, 248, 0.3);
+}
+
+.pager button:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+.pager button:disabled {
+  cursor: default;
+  opacity: 0.3;
+  background: rgba(248, 250, 252, 0.08);
+}
+
+/* Lightbox */
+dialog#lightbox {
+  border: none;
+  padding: 0;
+  margin: auto;
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100%;
+  height: 100%;
+  background: rgba(2, 6, 23, 0.96);
+  color: #f8fafc;
+}
+
+dialog#lightbox::backdrop {
+  background: rgba(2, 6, 23, 0.96);
+}
+
+.lightbox-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.lightbox-inner img,
+.lightbox-inner video {
+  max-width: 92vw;
+  max-height: 88vh;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+/* Slideshow transitions: the "leaving" media eases out (opacity + a
+   direction-dependent transform), then — after the swap to the next
+   item — the "entering" state is applied with transition: none so it
+   starts instantly off-screen/faded, and removing that class on the next
+   frame eases it back to rest. Only one of img/video is ever visible
+   (the other is display:none via .is-hidden-media), so animating both
+   unconditionally is harmless — the hidden one just isn't painted. */
+.media-stage img,
+.media-stage video {
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.media-stage.leaving img,
+.media-stage.leaving video {
+  opacity: 0;
+}
+
+.media-stage.entering img,
+.media-stage.entering video {
+  transition: none;
+  opacity: 0;
+}
+
+.media-stage.dir-left.leaving img,
+.media-stage.dir-left.leaving video {
+  transform: translateX(-36px);
+}
+
+.media-stage.dir-left.entering img,
+.media-stage.dir-left.entering video {
+  transform: translateX(36px);
+}
+
+.media-stage.dir-right.leaving img,
+.media-stage.dir-right.leaving video {
+  transform: translateX(36px);
+}
+
+.media-stage.dir-right.entering img,
+.media-stage.dir-right.entering video {
+  transform: translateX(-36px);
+}
+
+.media-stage.dir-fade.leaving img,
+.media-stage.dir-fade.leaving video {
+  transform: scale(0.96);
+}
+
+.media-stage.dir-fade.entering img,
+.media-stage.dir-fade.entering video {
+  transform: scale(1.04);
+}
+
+.lightbox-inner button {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  /* .media-stage sits later in DOM order but must never paint over these —
+     same reasoning as .controls' z-index in the header (see its comment). */
+  z-index: 1;
+  color: #f8fafc;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 999px;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  font-size: 1.4rem;
+  line-height: 1;
+  user-select: none;
+}
+
+.lightbox-inner button:hover,
+.lightbox-inner button:focus-visible {
+  background: rgba(56, 189, 248, 0.35);
+}
+
+.lightbox-inner button.on {
+  background: rgba(56, 189, 248, 0.35);
+}
+
+/* Same hover/focus info-bubble as the header controls (.controls button::after),
+   just scoped to whichever lightbox button opts in via data-tip. */
+.lightbox-inner button[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 6px 9px;
+  border-radius: 6px;
+  background: #1e293b;
+  color: #f8fafc;
+  box-shadow: 0 4px 12px rgba(2, 6, 23, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease;
+}
+
+.lightbox-inner button[data-tip]:hover::after,
+.lightbox-inner button[data-tip]:focus-visible::after {
+  opacity: 1;
+}
+
+/* Used for the prev/next arrows at the very start and end of the gallery.
+   visibility (not display) so the arrow that remains doesn't shift. */
+.lightbox-inner button.is-hidden {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* The lightbox shows exactly one of the image/video at a time; which one is
+   toggled from JS by adding .is-hidden-media to the other. */
+.lightbox-inner .is-hidden-media {
+  display: none;
+}
+
+#closeBtn {
+  top: 16px;
+  right: 16px;
+}
+
+#slideshowToggleBtn {
+  top: 16px;
+  left: 16px;
+  font-size: 1rem;
+}
+
+#slideshowToggleBtn svg {
+  width: 18px;
+  height: 18px;
+}
+
+#prevBtn {
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#nextBtn {
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#counter {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  opacity: 0.8;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+@media (max-width: 640px) {
+  .lightbox-inner button {
+    width: 38px;
+    height: 38px;
+    font-size: 1.2rem;
+  }
+}

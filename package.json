@@ -1,0 +1,29 @@
+{
+  "name": "jeremyandtipsy-com",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "ingest": "node scripts/ingest-media.mjs",
+    "thumbnails": "node scripts/generate-thumbnails.mjs",
+    "videos": "node scripts/process-videos.mjs",
+    "gallery": "npm run ingest && npm run thumbnails && npm run downloadVideos && npm run videos",
+    "downloadVideos": "node scripts/download-videos.mjs",
+    "deletePicture": "node scripts/delete-media.mjs picture",
+    "deleteVideo": "node scripts/delete-media.mjs video",
+    "renumber": "node scripts/retrofit-sequence.mjs",
+    "audit": "node scripts/audit-orphans.mjs",
+    "backfill": "node scripts/backfill-metadata.mjs"
+  },
+  "devDependencies": {
+    "ffmpeg-static": "^5.3.0",
+    "ffprobe-static": "^3.1.0",
+    "sharp": "^0.35.3",
+    "wrangler": "^4.120.0"
+  },
+  "allowScripts": {
+    "ffmpeg-static@5.3.0": true
+  }
+}

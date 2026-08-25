@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jeremy and Tipsy's world of adventure</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Jeremy and Tipsy</h1>
+      <div class="subtitle-row">
+        <div class="controls">
+          <button id="shuffleBtn" type="button" aria-pressed="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M16 3h5v5" /><path d="M4 20 21 3" />
+              <path d="M21 16v5h-5" /><path d="m15 15 6 6" /><path d="m4 4 5 5" />
+            </svg>
+          </button>
+          <button id="filterBtn" type="button">
+            <!-- Paths are filled in by syncControls() in app.js — the icon
+                 depends on which filter is active. -->
+            <svg id="filterIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
+          </button>
+          <button id="slideshowBtn" type="button" aria-label="Start slideshow" data-tip="Start slideshow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M6 4v16l14-8L6 4Z" />
+            </svg>
+          </button>
+        </div>
+        <p id="subtitle">Loading gallery&hellip;</p>
+      </div>
+      <p id="love">We love you kittens, you're the best. And what do squirrels know anyhow?</p>
+    </header>
+
+    <main>
+      <div class="grid" id="grid"></div>
+      <nav class="pager" id="pager" hidden>
+        <button id="pagePrev" type="button">&#8249; Previous</button>
+        <button id="pageNext" type="button">Next &#8250;</button>
+      </nav>
+    </main>
+
+    <dialog id="lightbox">
+      <div class="lightbox-inner">
+        <button id="closeBtn" aria-label="Close">&times;</button>
+        <button id="slideshowToggleBtn" aria-label="Start slideshow from here" data-tip="Start slideshow from here">
+          <svg id="slideshowToggleIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"></svg>
+        </button>
+        <button id="prevBtn" aria-label="Previous photo">&#8249;</button>
+        <div class="media-stage" id="mediaStage">
+          <img id="lightboxImg" src="" alt="" />
+          <video id="lightboxVideo" class="is-hidden-media" controls playsinline></video>
+        </div>
+        <button id="nextBtn" aria-label="Next photo">&#8250;</button>
+        <span id="counter"></span>
+      </div>
+    </dialog>
+  </body>
+</html>
