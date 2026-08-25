@@ -1,1 +1,53 @@
-[]
+[
+  {
+    "type": "photo",
+    "full": "pictures/000000000000.jpg",
+    "thumb": "thumbs/000000000000.jpg",
+    "width": 934,
+    "height": 2000
+  },
+  {
+    "type": "photo",
+    "full": "pictures/000000000002.jpg",
+    "thumb": "thumbs/000000000002.jpg",
+    "width": 1530,
+    "height": 2040
+  },
+  {
+    "type": "photo",
+    "full": "pictures/000000000003.jpg",
+    "thumb": "thumbs/000000000003.jpg",
+    "width": 934,
+    "height": 2000
+  },
+  {
+    "type": "video",
+    "poster": "thumbs/000000000001.jpg",
+    "preview": "https://media.jeremyandtipsy.com/previews/000000000001.mp4",
+    "full": "https://media.jeremyandtipsy.com/videos/000000000001.mp4",
+    "width": 478,
+    "height": 850,
+    "duration": 37.492078,
+    "hash": "cd43ca4f50a5a9f021a257114f8b812e672d1e54"
+  },
+  {
+    "type": "video",
+    "poster": "thumbs/000000000004.jpg",
+    "preview": "https://media.jeremyandtipsy.com/previews/000000000004.mp4",
+    "full": "https://media.jeremyandtipsy.com/videos/000000000004.mp4",
+    "width": 478,
+    "height": 850,
+    "duration": 37.492078,
+    "hash": "cd43ca4f50a5a9f021a257114f8b812e672d1e54"
+  },
+  {
+    "type": "video",
+    "poster": "thumbs/000000000005.jpg",
+    "preview": "https://media.jeremyandtipsy.com/previews/000000000005.mp4",
+    "full": "https://media.jeremyandtipsy.com/videos/000000000005.mp4",
+    "width": 302,
+    "height": 640,
+    "duration": 1.92,
+    "hash": "25c7fc2cf6cc03ab4647126028a0d33e019fe3e4"
+  }
+]
